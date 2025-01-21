@@ -1,21 +1,30 @@
 class Solution {
+
 public:
+    // static bool comp(pair<int, int>a, pair<int, int>b){
+    //     return a.first < b.first;
+    // }
     int maxSubarrayLength(vector<int>& nums) {
         int n = nums.size();
-        stack<int>s;
+        vector<pair<int, int>>indexElement(n);
         for(int i = 0; i < n; i++){
-            if(s.empty() || nums[i] > nums[s.top()])
-                s.push(i);
+            indexElement[i] = { nums[i], i};
         }
 
-        int ans = 0;
-        for(int i = n - 1; i >= 0; i--){
-            while(!s.empty() && nums[s.top()] > nums[i]) {
-                ans = max(ans, i - s.top() + 1);
-                s.pop();
-            }
+        sort(indexElement.begin(), indexElement.end());
+
+        int pos = -1;
+        int ans = INT_MIN;
+
+        for(int i = 0; i< n; i++){
+            // cout<<indexElement[i].second<<" ";
+            ans = max(ans, pos - indexElement[i].second + 1);
+            pos = max(pos, indexElement[i].second);
+
         }
 
         return ans;
-    }
+
+
+    }   
 };
