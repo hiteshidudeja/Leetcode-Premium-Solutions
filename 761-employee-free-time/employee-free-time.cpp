@@ -34,24 +34,18 @@ public:
 
         sort(intervals.begin(), intervals.end(), comp);
         int n = intervals.size();
-        int i = 0; vector<Interval>temp;
+        vector<Interval>result;
         // for(auto inter: intervals) cout<<inter.start<<" "<<inter.end<<"\n";
-        while(i < n){
-            int f = intervals[i].start; int s = intervals[i].end;
-            while(i + 1 < n && s >= intervals[i + 1].start){
-                s = max(s, intervals[i+1].end);
-                i++;
-            };
-            i++;
-            temp.push_back(Interval(f, s));
+        int s = intervals[0].end;
+        for(int i = 1; i < n; i++){
+            if(s < intervals[i].start){
+                result.push_back(Interval(s, intervals[i].start));
+            }
+
+            s = max(s, intervals[i].end);
         }
 
         // for(auto inter: temp) cout<<inter.start<<" "<<inter.end<<"\n";
-
-        vector<Interval> result;
-        for(int i = 0; i < temp.size() - 1; i++){
-            result.push_back(Interval(temp[i].end, temp[i+1].start));
-        }
 
         return result;
         
