@@ -14,7 +14,6 @@ public:
 
         for(auto entry : map){
             int numberOfTuples = entry.second;
-            if(numberOfTuples <= 1) continue;
             result += numberOfTuples*2 * (numberOfTuples*2 - 2);
         }
 
