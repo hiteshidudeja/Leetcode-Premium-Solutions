@@ -16,23 +16,27 @@ public:
         auto ans = leaf;
 
         Node* last_node = nullptr;
-        while(true){
+        while(leaf != root){
             auto parent = leaf->parent;
             leaf->parent = last_node;
 
-            if(leaf->left == last_node) leaf->left = nullptr;
-            else leaf->right = nullptr;
-
-            if(leaf == root) break;
 
             if(leaf->left){
                 leaf->right = leaf->left;
             }
 
             leaf->left = parent;
+
+            if(parent->left == leaf) parent->left = nullptr;
+            else parent->right = nullptr;
+
             last_node = leaf;
+
+
             leaf = parent;
         }
+
+        root->parent = last_node;
 
         return ans;
 
