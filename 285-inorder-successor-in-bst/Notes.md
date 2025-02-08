@@ -1,1 +1,1 @@
-<h2>inorder-successor-in-bst Notes</h2><hr>[ Time taken: 15 m 11 s ]
+<h2>inorder-successor-in-bst Notes</h2><hr>[ Time taken: 52 m 0 s ]
