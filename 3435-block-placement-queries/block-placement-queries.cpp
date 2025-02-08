@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    static constexpr int B = 200;
+    static constexpr int B = 150;
     static constexpr int N = 50005 + B;
     static constexpr int Nb = (N + B - 1) / B;
     struct Block{
