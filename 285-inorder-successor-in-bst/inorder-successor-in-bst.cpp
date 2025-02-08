@@ -10,31 +10,16 @@
 class Solution {
 public:
     TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
-        // binary search tree // iterative
         TreeNode* successor = nullptr;
-
-        // case 1 
-        if(p->right){
-            successor = p->right;
-            while(successor->left){
-                successor = successor->left;
-            }
-
-            return successor;
-        }
-
-        // case 2
-        while(root){
-            if(root->val > p->val){
+        while(root != NULL){
+            if(p->val >= root->val){
+                root = root->right;
+            } else{
                 successor = root;
                 root = root->left;
-            } else if(root->val < p->val){
-                root = root->right;
-            }else break;
+            }
         }
 
         return successor;
-
-
     }
 };
