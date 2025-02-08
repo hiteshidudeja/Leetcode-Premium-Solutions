@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    static constexpr int B = 300;
+    static constexpr int B = 500;
     static constexpr int N = 50005 + B;
     static constexpr int Nb = (N + B - 1) / B;
     struct Block{
@@ -66,10 +66,6 @@ public:
                 ret.emplace_back(ans >= q[2]);
             }
 
-            // for(int i = 0; i < 4; ++i){
-            //     std::cout << blocks[i].left << ' ' << blocks[i].right << ' ' << blocks[i].val << "\n";
-            // }
-            // std::cout << "\n\n";
         }
 
         return ret;
