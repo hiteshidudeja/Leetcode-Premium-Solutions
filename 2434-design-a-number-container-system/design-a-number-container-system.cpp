@@ -1,24 +1,25 @@
 class NumberContainers {
 private:
-    unordered_map<int, int>numberAtIndex;
-    unordered_map<int, set<int>>numberToIndexMap;
+    unordered_map<int, int>indexToNumber;
+    unordered_map<int, priority_queue<int, vector<int>, greater<int>>>numberToIndex;
 public:
     NumberContainers() {
+        
     }
     
     void change(int index, int number) {
-        if(numberAtIndex.count(index)){
-            int previousNumber = numberAtIndex[index];
-            numberToIndexMap[previousNumber].erase(index);
-            if(numberToIndexMap[previousNumber].empty()) numberToIndexMap.erase(previousNumber);
-        }
-        numberAtIndex[index] = number;
-        numberToIndexMap[number].insert(index);
+        indexToNumber[index] = number;
+        numberToIndex[number].push(index);
     }
     
     int find(int number) {
-        if(numberToIndexMap.count(number) == 0) return -1;
-        return *numberToIndexMap[number].begin();
+        auto pq = numberToIndex[number];
+        while(!pq.empty() && number != indexToNumber[pq.top()]){
+            pq.pop();
+        }
+
+        if(pq.empty()) return -1;
+        return pq.top();
     }
 };
 
