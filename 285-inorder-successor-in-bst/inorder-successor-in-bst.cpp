@@ -8,23 +8,33 @@
  * };
  */
 class Solution {
-private:
-    void inorderTraversal(TreeNode* root, vector<TreeNode*>&v){
-        if(root == nullptr) return;
-        inorderTraversal(root->left, v);
-        v.push_back(root);
-        inorderTraversal(root->right, v);
-    }
 public:
     TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
-        // inorder traversal
+        // binary search tree // iterative
+        TreeNode* successor = nullptr;
 
-        vector<TreeNode*>v;
-        inorderTraversal(root, v);
-        for(int i = 0; i < v.size() - 1; i++){
-            if(v[i] == p) return v[i + 1];
+        // case 1 
+        if(p->right){
+            successor = p->right;
+            while(successor->left){
+                successor = successor->left;
+            }
+
+            return successor;
         }
 
-        return nullptr;
+        // case 2
+        while(root){
+            if(root->val > p->val){
+                successor = root;
+                root = root->left;
+            } else if(root->val < p->val){
+                root = root->right;
+            }else break;
+        }
+
+        return successor;
+
+
     }
 };
