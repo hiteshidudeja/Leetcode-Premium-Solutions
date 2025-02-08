@@ -13,6 +13,7 @@ public:
     }
     
     int find(int number) {
+        if(numberToIndex.count(number) == 0) return -1;
         auto pq = numberToIndex[number];
         while(!pq.empty() && number != indexToNumber[pq.top()]){
             pq.pop();
