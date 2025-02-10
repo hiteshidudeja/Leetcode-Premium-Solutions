@@ -8,7 +8,7 @@ public:
         for(int i = 0; i < nums.size(); i++){
             prefixSum += nums[i];
             int temp = (prefixSum % k + k) % k;
-            cout<<temp<<"\n";
+            // cout<<temp<<"\n";
             subArrays += count[temp];
             count[temp]++;
         }
