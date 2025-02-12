@@ -12,12 +12,12 @@ private:
 public:
     int maximumSum(vector<int>& nums) {
         // 
-        unordered_map<int, int>map;
+        vector<int>mapSumDigits(82, -1);
         int result = -1;
         for(auto num : nums){
             int sumDigits = calculateSumDigits(num);
-            if(map.find(sumDigits) != map.end()) result = max(result, num + map[sumDigits]);
-            map[sumDigits] = max(num, map[sumDigits]);
+            if(mapSumDigits[sumDigits] != -1) result = max(result, num + mapSumDigits[sumDigits]);
+            mapSumDigits[sumDigits] = max(num, mapSumDigits[sumDigits]);
         }
 
         return result;
