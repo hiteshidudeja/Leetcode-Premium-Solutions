@@ -11,7 +11,7 @@ public:
         while(pq.size() >=2 && pq.top() < k) {
             long long a = pq.top(); pq.pop();
             long long b = pq.top(); pq.pop();
-            pq.push(2 * min(a, b) + max(a , b));
+            pq.push(2 * a + b);
             ops++;
         }
 
