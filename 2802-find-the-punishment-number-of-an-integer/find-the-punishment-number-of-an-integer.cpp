@@ -1,37 +1,22 @@
-// x1 x2 x3 x4 x5 x6 |
-// 7C1 + 8C2 + 9C3 + 10C4 + 11C5 == 
-
 class Solution {
+private:
+    bool possible(int index, int sum, string square, int x){
+        if(index == square.size()) return sum == x;
+        for(int i = index + 1; i <= square.size(); i++){
+            if(possible(i, sum + stoi(square.substr(index, i - index)), square, x)) return true ;
+        }
+
+        return false;
+    }
 public:
-
     int punishmentNumber(int n) {
- 
         int ans = 0;
- 
-        for(int x = 1; x <= n; ++x){
-            int sq = x*x;
-            string s = to_string(sq);
 
-            auto possible = [&](auto &self, int index, int sum) -> bool{
-                if(index == s.size()) return sum == x;
-
-                for(int i = index + 1; i <= s.size(); ++i){
-                    // [index, i)
-
-                    if(self(self, i, sum + stoi(s.substr(index, i - index)))){
-                        return true;
-                    }
-
-                }
-
-                return false;
-            };
-
-            if(possible(possible, 0, 0)) ans += sq;
+        for(int i = 1; i <= n; i++){
+            int square = i * i;
+            if(possible(0, 0, to_string(square), i)) ans += square;
         }
 
         return ans;
-
-
     }
 };
