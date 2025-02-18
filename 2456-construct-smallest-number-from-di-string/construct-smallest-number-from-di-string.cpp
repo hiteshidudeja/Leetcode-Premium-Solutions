@@ -13,7 +13,6 @@ public:
                 }
                 s += count; int t = s - 1;
                 result += s + '0';
-                cout<<count<<" "<<t<<"\n";
                 while(count--){
                     result += t + '0'; i++;
                     t--;
