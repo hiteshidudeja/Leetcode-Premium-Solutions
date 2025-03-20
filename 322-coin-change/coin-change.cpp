@@ -1,14 +1,14 @@
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-        const int inf = 1e9;
-        vector<int> dp(amount + 1, inf);
-        dp[0] = 0;
-        for(auto &c : coins){
-            for(int i = 0; i <= amount - c; ++i){
-                dp[i + c] = min(dp[i + c], dp[i] + 1);
+        vector<long>dp(amount + 1, INT_MAX); dp[0] = 0;
+        for(auto &coin: coins){
+            for(int i = coin; i <= amount; i++){
+                if(dp[i - coin] != INT_MAX)
+                    dp[i] = min(dp[i], 1 + dp[i - coin]);
             }
         }
-        return dp[amount] < inf ? dp[amount] : -1;
+
+        return dp[amount] == INT_MAX ? -1 : dp[amount];
     }
 };
