@@ -1,62 +1,58 @@
-class DSU {
+class DSU{
     int[] parent;
 
-    public DSU(int n) {
+    public DSU(int n){
         parent = new int[n + 1];
-        for (int i = 0; i <= n; i++)
-            parent[i] = i;
+        for(int i = 0; i <= n; i++) parent[i] = i;
     }
 
-    public int find(int x) {
-        if (parent[x] != x)
-            parent[x] = find(parent[x]); // path compression
-        return parent[x];
-    }
-
-    public boolean union(int x, int y) {
-        int px = find(x), py = find(y);
-        if (px == py)
-            return false;
+    public void union(int x, int y){
+        int px = find(x); int py = find(y);
+        if(px == py) return;
         parent[py] = px;
-        return true;
+    }
+
+
+    public int find(int val){
+        if(parent[val] == val) return val;
+        return parent[val] = find(parent[val]);
     }
 }
+
 
 class Solution {
     public int[] processQueries(int c, int[][] connections, int[][] queries) {
         DSU dsu = new DSU(c);
+
         boolean[] online = new boolean[c + 1];
         Arrays.fill(online, true);
 
-        for (int[] conn : connections)
-            dsu.union(conn[0], conn[1]);
+        for(int[] con : connections){
+            dsu.union(con[0], con[1]);
+        } 
 
-        Map<Integer, PriorityQueue<Integer>> componentHeap = new HashMap<>();
-        for (int station = 1; station <= c; station++) {
-            int root = dsu.find(station);
-            componentHeap.putIfAbsent(root, new PriorityQueue<>());
-            componentHeap.get(root).offer(station);
+        Map<Integer, PriorityQueue<Integer>> heap = new HashMap<>();
+        for(int i = 1; i <=c; i++){
+            int root = dsu.find(i);
+            heap.putIfAbsent(root, new PriorityQueue<>());
+            heap.get(root).offer(i);
         }
 
         List<Integer> result = new ArrayList<>();
 
-        for (int[] query : queries) {
-            int type = query[0], x = query[1];
+        for(int[] query: queries){
+            int op = query[0], x = query[1];
 
-            if (type == 2) {
+            if(op == 2) {
                 online[x] = false;
             } else {
-                if (online[x]) {
-                    result.add(x);
-                } else {
+                if(online[x]) result.add(x);
+                else {
                     int root = dsu.find(x);
-                    PriorityQueue<Integer> heap = componentHeap.get(root);
+                    PriorityQueue<Integer> h = heap.get(root);
 
-                    while (heap != null && !heap.isEmpty() && !online[heap.peek()]) {
-                        heap.poll();
-                    }
-
-                    result.add((heap == null || heap.isEmpty()) ? -1 : heap.peek());
+                    while(!h.isEmpty() && !online[h.peek()]) h.poll();
+                    result.add(h.isEmpty()? -1 : h.peek());
                 }
             }
         }
@@ -66,5 +62,6 @@ class Solution {
             ans[i] = result.get(i);
         }
         return ans;
+
     }
 }
