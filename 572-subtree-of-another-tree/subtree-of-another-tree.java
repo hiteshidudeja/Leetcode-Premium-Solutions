@@ -16,8 +16,8 @@
 class Solution {
 
     private boolean compare(TreeNode root, TreeNode subRoot){
-        if(root == null && subRoot != null || root != null && subRoot == null) return false;
         if(root == null && subRoot == null) return true;
+        if(root == null || subRoot == null) return false;
 
         return root.val == subRoot.val && compare(root.left, subRoot.left) && compare(root.right, subRoot.right);
     }
