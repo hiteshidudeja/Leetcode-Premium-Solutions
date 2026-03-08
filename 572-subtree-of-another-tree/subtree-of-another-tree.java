@@ -14,20 +14,23 @@
  * }
  */
 class Solution {
+    private void serialise(TreeNode root, StringBuilder sb){
+        if(root == null) {
+            sb.append("null"); return;
+        }
 
-    private boolean compare(TreeNode root, TreeNode subRoot){
-        if(root == null && subRoot == null) return true;
-        if(root == null || subRoot == null) return false;
-
-        return root.val == subRoot.val && compare(root.left, subRoot.left) && compare(root.right, subRoot.right);
-    }
-    private boolean traverse(TreeNode root, TreeNode subRoot){
-        if(root == null) return false;
-        if(root.val == subRoot.val && compare(root, subRoot)) return true;
-        return traverse(root.left, subRoot) || traverse(root.right, subRoot);
-        
+        sb.append("#" + root.val);
+        serialise(root.left, sb); serialise(root.right, sb);
     }
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        return traverse(root, subRoot);
+        StringBuilder sb = new StringBuilder();
+        serialise(root, sb);
+        String tree = sb.toString();
+
+        sb = new StringBuilder();
+        serialise(subRoot, sb);
+        String subTree = sb.toString();
+
+        return tree.indexOf(subTree) >= 0;
     }
 }
