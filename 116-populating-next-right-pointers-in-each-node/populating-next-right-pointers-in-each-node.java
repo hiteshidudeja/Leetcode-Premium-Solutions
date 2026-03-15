@@ -26,18 +26,18 @@ class Solution {
     public Node connect(Node root) {
         Queue<Node> queue = new LinkedList<>();
         if(root == null) return root;
-        if(root.left != null) queue.offer(root.left); if(root.right != null) queue.offer(root.right);
+        
+        queue.offer(root);
 
         while(!queue.isEmpty()){
             int size = queue.size();
-            for(int i = 0; i < size - 1; i++){
-                Node temp = queue.poll(); Node tempNext = queue.peek();
-                temp.next = tempNext;
+            for(int i = 0; i < size; i++){
+                Node temp = queue.poll();
                 if(temp.left != null) queue.offer(temp.left); if(temp.right != null) queue.offer(temp.right);
+                if(i < size - 1){
+                    temp.next = queue.peek();
+                }
             }
-
-            Node last = queue.poll();
-            if(last.left != null) queue.offer(last.left); if(last.right != null) queue.offer(last.right);
         }
 
         return root;
