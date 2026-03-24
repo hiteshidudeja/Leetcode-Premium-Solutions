@@ -1,1 +1,1 @@
-<h2>delete-leaves-with-a-given-value Notes</h2><hr>[ Time taken: 47m 45s ]
+<h2>delete-leaves-with-a-given-value Notes</h2><hr>[ Time taken: 5m 9s ]
