@@ -3,20 +3,13 @@ class Solution {
         // 
         Map<Integer, Integer> map = new HashMap<>();
 
-        Stack<Integer> stack = new Stack();
+        Deque<Integer> stack = new ArrayDeque<>();
         int n = nums2.length;
-        map.put(nums2[n - 1], -1); stack.push(nums2[n-1]);
-        for(int i = n - 2; i >= 0; i--){
+        for(int i = n - 1; i >= 0; i--){
             while(!stack.isEmpty() && stack.peek() <= nums2[i]){
                 stack.pop();
             }
-
-            if(stack.isEmpty()) {
-                map.put(nums2[i], -1);
-            } else {
-                map.put(nums2[i], stack.peek());
-            }
-
+            map.put(nums2[i], stack.isEmpty() ? -1 : stack.peek());
 
             stack.push(nums2[i]);
         }
