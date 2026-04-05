@@ -14,16 +14,16 @@
  * }
  */
 class Solution {
-    private List<Integer> list;
-    private void traverse(TreeNode node){
-        if(node == null) return;
-        traverse(node.left);
-        list.add(node.val);
-        traverse(node.right);
-    }
+    int count = 0; int ans = -1;
     public int kthSmallest(TreeNode root, int k) {
-        list = new ArrayList<>();
-        traverse(root);
-        return list.get(k - 1) ;
+        if(root.left != null) kthSmallest(root.left, k);
+        count++;
+        if(count == k) {
+            ans = root.val;
+            return ans;
+        }
+
+        if(root.right != null) kthSmallest(root.right, k);
+        return ans;
     }
 }
