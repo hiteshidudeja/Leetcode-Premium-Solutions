@@ -1,24 +1,19 @@
 class Solution {
     public int countSubstrings(String s) {
-        // a.....b
+        // count
+        // i, j is my state
+        // palindrome - 
+        int n = s.length(); int ans = 0;
 
-        int n = s.length();
-        boolean[][] dp = new boolean[n][n]; int count = 0;
-
-        for(int i = n - 1; i >= 0; i--){
-            for(int j = i; j < n; j++){
-                if(i == j){
-                    dp[i][j] = true;
-                } else if(j == i + 1) {
-                    dp[i][j] = (s.charAt(i) == s.charAt(j));
-                } else {
-                    dp[i][j] = (s.charAt(i) == s.charAt(j)) && dp[i + 1][j - 1];
-                }
-
-                if(dp[i][j]) count++;
-            }
+        for(int i = 0; i < n; i++){
+            int j = i - 1; int k = i;
+            while(k < n - 1 && s.charAt(k) == s.charAt(k + 1)) k++;
+            ans += (k - j) * (k - j + 1)/2;
+            i = k; k++;
+            while(j >= 0 && k < n && s.charAt(j--) == s.charAt(k++)) ans++;
         }
 
-        return count;
+        return ans;
+
     }
 }
