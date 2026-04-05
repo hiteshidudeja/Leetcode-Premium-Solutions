@@ -3,16 +3,16 @@ class Solution {
         // num right == num left
         // num up == num down
 
-        int ups = 0; int downs = 0; int right = 0; int left = 0;
+        int x = 0; int y = 0;
 
         for(int i = 0; i < moves.length(); i++){
             char c = moves.charAt(i);
-            if(c == 'U') ups++;
-            else if(c == 'D') downs++;
-            else if(c == 'R') right++;
-            else if(c == 'L') left++;
+            if(c == 'U') y++;
+            else if(c == 'D') y--;
+            else if(c == 'R') x++;
+            else if(c == 'L') x--;
         }
 
-        return ups == downs && right == left;
+        return x == 0 && y == 0;
     }
 }
