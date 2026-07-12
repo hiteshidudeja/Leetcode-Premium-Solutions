@@ -9,12 +9,11 @@ class Solution {
             rank.put(x, currentRank); currentRank++;
         }
 
-        int[] result = new int[arr.length];
 
         for(int i = 0; i < arr.length; i++){
-            result[i] = rank.get(arr[i]);
+            arr[i] = rank.get(arr[i]);
         }
 
-        return result;
+        return arr;
     }
 }
