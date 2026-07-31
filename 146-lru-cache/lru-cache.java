@@ -1,72 +1,75 @@
 class LRUCache {
-     
-     // hashmap for O(1) access
-     // how to store info of the least recently used (ts)
-     // putting and getting both are considered as used 
 
     class Node{
-        int key, value;
-        Node prev; Node next;
+        int key; int val; Node prev; Node next;
 
-        Node(int k, int v){
-            key = k; value = v;
+        Node(int key, int value){
+            this.key = key;
+            this.val = value;
         }
     }
 
-    private int capacity;
-    HashMap<Integer, Node> map;
-    private Node head, tail;
+    int capacity; 
+    Map<Integer, Node> map; Node head; Node tail; int size;
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
         map = new HashMap<>();
-        head = new Node(0, 0); tail = new Node(0, 0);
-        head.next = tail; tail.prev = head; 
-    }
-
-    private void moveToFront(Node node){
-        remove(node); addToFront(node);
-    }
-
-    private void remove(Node node){
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
-    }
-
-    private void addToFront(Node node){
-        node.next = head.next;
-        node.prev = head;
-        head.next = node;
-        node.next.prev = node;
+        head = new Node(-1, -1);
+        tail = new Node(-1, -1);
+        size = 0;
+        head.next = tail; tail.prev = head;
     }
     
     public int get(int key) {
-        // 
-        if(!map.containsKey(key)) return -1;
+        if(!map.containsKey(key)){
+            return -1;
+        }
+
         Node node = map.get(key);
-        moveToFront(node); return node.value;
+        removeNode(node); 
+        addBeforeHead(node);
+        return node.val;
+    }
+
+    public void removeNode(Node node){
+        Node previous = node.prev; Node next = node.next;
+
+        previous.next = next; next.prev = previous;
+    }
+
+
+    public void addBeforeHead(Node node){
+        Node currentRecent = head.next;
+
         
+        head.next = node;
+        node.prev = head;
+        currentRecent.prev = node;
+        node.next = currentRecent;
     }
     
     public void put(int key, int value) {
-        if(map.containsKey(key)){
-            // update the map
-            // update the dll
-            Node node = map.get(key);
-            node.value = value;
-            moveToFront(node);
-        } else {
-            if(map.size() == capacity){
-                // remove from tail (lru);
-                Node lru = tail.prev; remove(lru);
-                map.remove(lru.key);
-            }
+        if(map.containsKey(key)) {
+            Node node= map.get(key);
+            node.val = value;
 
-            // create new entry
-            Node node = new Node(key, value);
-            map.put(key, node);
-            addToFront(node);
+            removeNode(node);
+            addBeforeHead(node);
+            return;
         }
+
+        size++;
+        Node newNode = new Node(key, value);
+        map.put(key, newNode);
+        addBeforeHead(newNode);
+
+        if(size > capacity) {
+            Node lruNode = tail.prev;
+            removeNode(lruNode);
+            map.remove(lruNode.key); size--;
+        }
+       
     }
 }
 
