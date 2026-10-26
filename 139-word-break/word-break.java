@@ -1,21 +1,19 @@
 class Solution {
-    private List<String> dictionary;
-    private Map<Integer, Boolean> memo = new HashMap<>();
-    boolean solve(int i, String s){
-        if(i == s.length()) return true;
-        if(memo.containsKey(i)) return memo.get(i);
-        for(int p = i + 1; p <= s.length(); p++){        
-            if(dictionary.contains(s.substring(i, p)) && solve(p, s)){
-                memo.put(i, true);
-                return true;
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int n = s.length();
+
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = true;
+        for(int i = 1; i <= n; i++){
+            for(String word : wordDict){
+                int start = i - word.length();
+                if(start >= 0 && dp[start] && s.substring(start, i).equals(word)){
+                    dp[i] = true; break;
+                }
             }
         }
 
-        memo.put(i, false);
-        return false;
-    }
-    public boolean wordBreak(String s, List<String> wordDict) {
-        this.dictionary = wordDict;
-        return solve(0, s);
+
+        return dp[n];
     }
 }
